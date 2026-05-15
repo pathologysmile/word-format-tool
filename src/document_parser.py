@@ -1,28 +1,36 @@
 """文档解析器 - 读取 .docx 文件并提取结构化信息"""
 
 from docx import Document
-from typing import List, Dict
+from typing import List, Dict, Union
+import io
 import os
 
 
 class DocumentParser:
     """Word 文档解析器"""
     
-    def __init__(self, file_path: str):
+    def __init__(self, file_source: Union[str, io.BytesIO]):
         """
         初始化文档解析器
         
         Args:
-            file_path: .docx 文件路径
+            file_source: .docx 文件路径或 BytesIO 对象
         """
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"文件不存在: {file_path}")
+        self.file_source = file_source
         
-        if not file_path.endswith('.docx'):
-            raise ValueError("仅支持 .docx 格式文件")
-        
-        self.file_path = file_path
-        self.doc = Document(file_path)
+        # 支持文件路径或内存流
+        if isinstance(file_source, str):
+            if not os.path.exists(file_source):
+                raise FileNotFoundError(f"文件不存在: {file_source}")
+            if not file_source.endswith('.docx'):
+                raise ValueError("仅支持 .docx 格式文件")
+            self.doc = Document(file_source)
+            self.file_path = file_source
+        elif isinstance(file_source, io.BytesIO):
+            self.doc = Document(file_source)
+            self.file_path = "<memory>"
+        else:
+            raise TypeError("不支持的文件类型，需要 str 或 BytesIO")
     
     def extract_paragraphs(self) -> List[Dict]:
         """
@@ -88,13 +96,23 @@ class DocumentParser:
         Returns:
             Dict: 元数据字典
         """
-        return {
+        metadata = {
             'paragraph_count': len(self.doc.paragraphs),
             'table_count': len(self.doc.tables),
             'section_count': len(self.doc.sections),
             'file_path': self.file_path,
-            'file_size_kb': os.path.getsize(self.file_path) / 1024
         }
+        
+        # 只有文件路径时才计算文件大小
+        if isinstance(self.file_source, str):
+            metadata['file_size_kb'] = os.path.getsize(self.file_source) / 1024
+        else:
+            # 内存流估算大小
+            self.file_source.seek(0, 2)  # 移动到末尾
+            metadata['file_size_kb'] = self.file_source.tell() / 1024
+            self.file_source.seek(0)  # 重置位置
+        
+        return metadata
     
     def get_page_setup(self) -> Dict:
         """

@@ -9,6 +9,27 @@ class FontUtils:
     """字体工具类"""
     
     @staticmethod
+    def is_cloud_environment() -> bool:
+        """
+        检测是否运行在云环境(Streamlit Cloud/Heroku等)
+        
+        Returns:
+            bool: 是否为云环境
+        """
+        # Streamlit Cloud 环境变量
+        if os.environ.get('STREAMLIT_CLOUD') or os.environ.get('IS_HEROKU'):
+            return True
+        
+        # Linux 系统且没有 Windows 字体目录通常是云环境
+        system = platform.system()
+        if system == "Linux":
+            windir = os.environ.get("WINDIR", "")
+            if not windir or not os.path.exists(windir):
+                return True
+        
+        return False
+    
+    @staticmethod
     def check_font_installed(font_name: str) -> bool:
         """
         检查系统是否安装指定字体
@@ -19,6 +40,10 @@ class FontUtils:
         Returns:
             bool: 字体是否存在
         """
+        # 云环境直接返回 False,使用降级策略
+        if FontUtils.is_cloud_environment():
+            return False
+        
         system = platform.system()
         
         if system == "Windows":
@@ -86,6 +111,40 @@ class FontUtils:
             return False
     
     @staticmethod
+    def get_system_fonts() -> List[str]:
+        """
+        获取系统中所有可用的字体名称（尝试扫描系统目录）
+        
+        Returns:
+            List[str]: 字体名称列表
+        """
+        system = platform.system()
+        fonts = set()
+        
+        if system == "Windows":
+            font_dir = os.path.join(os.environ.get("WINDIR", "C:\\Windows"), "Fonts")
+            if os.path.exists(font_dir):
+                for f in os.listdir(font_dir):
+                    if f.lower().endswith(('.ttf', '.ttc', '.otf')):
+                        # 简单提取文件名作为字体名（去除扩展名）
+                        name = os.path.splitext(f)[0]
+                        fonts.add(name)
+        elif system == "Darwin":  # macOS
+            font_dirs = ["/Library/Fonts", "/System/Library/Fonts", os.path.expanduser("~/Library/Fonts")]
+            for font_dir in font_dirs:
+                if os.path.exists(font_dir):
+                    for f in os.listdir(font_dir):
+                        if f.lower().endswith(('.ttf', '.ttc', '.otf')):
+                            name = os.path.splitext(f)[0]
+                            fonts.add(name)
+        
+        # 合并常用中文字体以确保关键字体不丢失
+        common_fonts = FontUtils.get_available_chinese_fonts()
+        fonts.update(common_fonts)
+        
+        return sorted(list(fonts))
+
+    @staticmethod
     def get_available_chinese_fonts() -> List[str]:
         """
         获取系统可用的中文字体列表
@@ -93,6 +152,10 @@ class FontUtils:
         Returns:
             List[str]: 字体名称列表
         """
+        # 云环境返回空列表,使用通用字体
+        if FontUtils.is_cloud_environment():
+            return []
+        
         common_chinese_fonts = [
             "宋体", "黑体", "楷体", "仿宋", "微软雅黑",
             "方正小标宋简体", "仿宋_GB2312", "楷体_GB2312",
@@ -119,14 +182,23 @@ class FontUtils:
             str: 替代字体名称
         """
         fallback_map = {
-            "方正小标宋简体": "黑体",
-            "仿宋_GB2312": "仿宋",
-            "楷体_GB2312": "楷体",
-            "华文细黑": "黑体",
-            "华文中宋": "宋体",
+            "方正小标宋简体": "SimHei",  # 黑体
+            "仿宋_GB2312": "FangSong",   # 仿宋
+            "楷体_GB2312": "KaiTi",      # 楷体
+            "华文细黑": "SimHei",
+            "华文中宋": "SimSun",
+            "黑体": "SimHei",
+            "宋体": "SimSun",
+            "楷体": "KaiTi",
+            "仿宋": "FangSong",
+            "微软雅黑": "Microsoft YaHei",
         }
         
-        return fallback_map.get(font_name, "宋体")
+        # 云环境直接使用英文字体名
+        if FontUtils.is_cloud_environment():
+            return fallback_map.get(font_name, "SimSun")
+        
+        return fallback_map.get(font_name, "SimSun")
     
     @staticmethod
     def separate_text_parts(text: str) -> List[Tuple[str, str]]:

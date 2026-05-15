@@ -103,11 +103,22 @@
       "page_break_before": false
     }
   },
-  "header_config": {
-    "enabled": false,
-    "issue_number_font": "黑体",
-    "issue_number_size_pt": 16,
-    "classification_font": "黑体",
-    "urgency_font": "黑体"
+  "header": {
+    "text": "",
+    "font_main": "宋体",
+    "font_size_pt": 9,
+    "alignment": "center"
+  },
+  "footer": {
+    "text": "— {page} —",
+    "font_main": "宋体",
+    "font_size_pt": 9,
+    "alignment": "center"
+  },
+  "table": {
+    "font_main": "仿宋_GB2312",
+    "font_size_pt": 10.5,
+    "alignment": "center",
+    "cell_alignment": "center"
   }
 }

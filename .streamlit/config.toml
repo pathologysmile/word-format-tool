@@ -1,0 +1,17 @@
+[server]
+# Streamlit Cloud 配置
+headless = true
+runOnSave = false
+port = 8501
+
+[browser]
+# 自动打开浏览器(本地开发时使用)
+gatherUsageStats = false
+
+[theme]
+# 主题配置
+primaryColor = "#FF4B4B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#262730"
+font = "sans serif"

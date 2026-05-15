@@ -37,3 +37,11 @@ ENV/
 # Test artifacts
 test-results/
 *.log
+
+# Temporary files (Cloud deployment)
+temp/
+*.docx
+!templates/*.json
+
+# Streamlit secrets (NEVER commit!)
+.streamlit/secrets.toml

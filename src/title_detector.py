@@ -106,14 +106,14 @@ class TitleDetector:
     
     def hybrid_detect(self) -> List[Dict]:
         """
-        混合识别(样式优先,模式补充)
+        混合识别(样式优先,模式补充,首段特殊处理)
         
         Returns:
             List[Dict]: 带层级标注的段落列表
         """
         result = []
         
-        for para in self.paragraphs:
+        for i, para in enumerate(self.paragraphs):
             style_name = para.get('style', 'Normal')
             text = para['text'].strip()
             
@@ -122,6 +122,12 @@ class TitleDetector:
             method = 'style'
             confidence = 0.95
             
+            # 特殊处理：如果第一段没有明确样式，但文本较短且非空，倾向于认为是总标题
+            if i == 0 and (level is None or level == 'body') and text and len(text) < 50:
+                level = 'title'
+                method = 'first_line_heuristic'
+                confidence = 0.85
+
             # 如果样式是 Normal 或未识别,使用正则模式
             if level is None or level == 'body':
                 # 第二层:尝试正则模式

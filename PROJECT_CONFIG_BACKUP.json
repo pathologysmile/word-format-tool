@@ -1,0 +1,140 @@
+{
+  "_meta": {
+    "saved_at": "2026-05-15T10:30:00",
+    "tool_name": "Word Format Tool",
+    "version": "1.0",
+    "note": "This is a backup of the current project configuration"
+  },
+  "templates": {
+    "custom_official_17pt.json": {
+      "name": "公文标准格式 (17号字)",
+      "version": "1.0",
+      "description": "符合 A4 双面打印，上3cm下3cm左2.8右2.8，固定行距30磅，17号字要求",
+      "page": {
+        "margin_top_mm": 30,
+        "margin_bottom_mm": 30,
+        "margin_left_mm": 28,
+        "margin_right_mm": 28,
+        "paper_size": "A4"
+      },
+      "levels": {
+        "title": {
+          "font_main": "方正小标宋简体",
+          "font_number": "Times New Roman",
+          "font_size_pt": 22,
+          "bold": true,
+          "line_spacing_type": "exactly",
+          "line_spacing_value": 30.0,
+          "space_before_lines": 0.0,
+          "space_after_lines": 0.0,
+          "alignment": "center"
+        },
+        "heading_1": {
+          "font_main": "黑体",
+          "font_number": "Times New Roman",
+          "font_size_pt": 17,
+          "bold": true,
+          "line_spacing_type": "exactly",
+          "line_spacing_value": 30.0,
+          "space_before_lines": 2.0,
+          "space_after_lines": 1.0,
+          "alignment": "left"
+        },
+        "heading_2": {
+          "font_main": "楷体_GB2312",
+          "font_number": "Times New Roman",
+          "font_size_pt": 17,
+          "bold": false,
+          "line_spacing_type": "exactly",
+          "line_spacing_value": 30.0,
+          "space_before_lines": 0.0,
+          "space_after_lines": 0.0,
+          "alignment": "left"
+        },
+        "heading_3": {
+          "font_main": "仿宋_GB2312",
+          "font_number": "Times New Roman",
+          "font_size_pt": 17,
+          "bold": true,
+          "line_spacing_type": "exactly",
+          "line_spacing_value": 30.0,
+          "space_before_lines": 0.0,
+          "space_after_lines": 0.0,
+          "alignment": "left"
+        },
+        "heading_4": {
+          "font_main": "仿宋_GB2312",
+          "font_number": "Times New Roman",
+          "font_size_pt": 17,
+          "bold": false,
+          "line_spacing_type": "exactly",
+          "line_spacing_value": 30.0,
+          "space_before_lines": 0.0,
+          "space_after_lines": 0.0,
+          "alignment": "left"
+        },
+        "body": {
+          "font_main": "仿宋_GB2312",
+          "font_number": "Times New Roman",
+          "font_size_pt": 17,
+          "bold": false,
+          "line_spacing_type": "exactly",
+          "line_spacing_value": 30.0,
+          "space_before_lines": 0.0,
+          "space_after_lines": 0.0,
+          "first_line_indent_chars": 2,
+          "alignment": "justify"
+        }
+      },
+      "header": {
+        "text": "",
+        "font_main": "宋体",
+        "font_size_pt": 9,
+        "alignment": "center"
+      },
+      "footer": {
+        "text": "— {page} —",
+        "font_main": "宋体",
+        "font_number": "Times New Roman",
+        "font_size_pt": 9,
+        "alignment": "center"
+      },
+      "table": {
+        "font_main": "仿宋_GB2312",
+        "font_number": "Times New Roman",
+        "font_size_pt": 15,
+        "line_spacing_type": "exactly",
+        "line_spacing_value": 25.0,
+        "alignment": "center",
+        "cell_alignment": "center"
+      }
+    },
+    "custom_个人事迹.json": {
+      "name": "个人事迹",
+      "version": "1.0",
+      "description": "个人事迹材料专用格式"
+    },
+    "custom_学术论文格式.json": {
+      "name": "学术论文格式",
+      "version": "1.0",
+      "description": "适用于学位论文、期刊文章"
+    }
+  },
+  "core_files": {
+    "app.py": "Streamlit Web 界面（前端+模板管理）",
+    "src/document_formatter.py": "文档格式化引擎（使用 XML 直接操作行距）",
+    "src/document_parser.py": "Word 文档解析器",
+    "src/title_detector.py": "智能标题识别器",
+    "src/font_utils.py": "字体工具（系统字体扫描）",
+    "batch_process.py": "命令行批量处理脚本"
+  },
+  "dependencies": [
+    "python-docx>=0.8.11",
+    "streamlit>=1.20.0",
+    "pandas>=1.5.0"
+  ],
+  "usage": {
+    "start_command": "cd D:\\study\\word-format-tool && python -m streamlit run app.py",
+    "access_url": "http://localhost:8501"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "name": "公文标准格式 (17号字)",
+  "version": "1.0",
+  "description": "符合 A4 双面打印，上3cm下3cm左2.8右2.8，固定行距30磅，17号字要求",
+  "page": {
+    "margin_top_mm": 30,
+    "margin_bottom_mm": 30,
+    "margin_left_mm": 28,
+    "margin_right_mm": 28,
+    "paper_size": "A4"
+  },
+  "levels": {
+    "title": {
+      "font_main": "方正小标宋简体",
+      "font_number": "Times New Roman",
+      "font_size_pt": 22,
+      "bold": true,
+      "line_spacing_type": "exactly",
+      "line_spacing_value": 30.0,
+      "space_before_lines": 0,
+      "space_after_lines": 0,
+      "alignment": "center"
+    },
+    "heading_1": {
+      "font_main": "黑体",
+      "font_number": "Times New Roman",
+      "font_size_pt": 17,
+      "bold": true,
+      "line_spacing_type": "exactly",
+      "line_spacing_value": 30.0,
+      "space_before_lines": 2,
+      "space_after_lines": 1,
+      "alignment": "left"
+    },
+    "heading_2": {
+      "font_main": "楷体_GB2312",
+      "font_number": "Times New Roman",
+      "font_size_pt": 17,
+      "bold": false,
+      "line_spacing_type": "exactly",
+      "line_spacing_value": 30.0,
+      "space_before_lines": 0,
+      "space_after_lines": 0,
+      "alignment": "left"
+    },
+    "heading_3": {
+      "font_main": "仿宋_GB2312",
+      "font_number": "Times New Roman",
+      "font_size_pt": 17,
+      "bold": true,
+      "line_spacing_type": "exactly",
+      "line_spacing_value": 30.0,
+      "space_before_lines": 0,
+      "space_after_lines": 0,
+      "alignment": "left"
+    },
+    "heading_4": {
+      "font_main": "仿宋_GB2312",
+      "font_number": "Times New Roman",
+      "font_size_pt": 17,
+      "bold": false,
+      "line_spacing_type": "exactly",
+      "line_spacing_value": 30.0,
+      "space_before_lines": 0,
+      "space_after_lines": 0,
+      "alignment": "left"
+    },
+    "body": {
+      "font_main": "仿宋_GB2312",
+      "font_number": "Times New Roman",
+      "font_size_pt": 17,
+      "bold": false,
+      "line_spacing_type": "exactly",
+      "line_spacing_value": 30.0,
+      "space_before_lines": 0,
+      "space_after_lines": 0,
+      "first_line_indent_chars": 2,
+      "alignment": "justify"
+    }
+  },
+  "header": {
+    "text": "",
+    "font_main": "宋体",
+    "font_size_pt": 9,
+    "alignment": "center"
+  },
+  "footer": {
+    "text": "— {page} —",
+    "font_main": "宋体",
+    "font_number": "Times New Roman",
+    "font_size_pt": 9,
+    "alignment": "center"
+  },
+  "table": {
+    "font_main": "仿宋_GB2312",
+    "font_number": "Times New Roman",
+    "font_size_pt": 15,
+    "line_spacing_type": "exactly",
+    "line_spacing_value": 25.0,
+    "alignment": "center",
+    "cell_alignment": "center"
+  }
+}
