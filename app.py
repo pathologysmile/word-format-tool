@@ -37,6 +37,16 @@ with st.sidebar:
     selected_template_name = st.selectbox("选择格式化模板", list(template_options.keys()))
     selected_template_file = template_options[selected_template_name]
     
+    # 文档清理功能
+    st.markdown("---")
+    st.subheader("🧹 文档清理")
+    
+    clean_empty = st.checkbox("清除空白段落", value=False)
+    merge_blanks = st.checkbox("合并连续空行(保留1个)", value=True)
+    remove_duplicates = st.checkbox("清除连续重复段落", value=False)
+    
+    clean_button = st.button("🧹 执行清理", disabled=not uploaded_file)
+    
     # 操作按钮
     st.markdown("---")
     process_button = st.button("🚀 开始格式化", type="primary", disabled=not uploaded_file)
@@ -328,6 +338,51 @@ elif uploaded_file:
             st.metric("段落数", metadata['paragraph_count'])
             st.metric("表格数", metadata['table_count'])
             st.metric("文件大小", f"{metadata['file_size_kb']:.2f} KB")
+        
+        # 处理清理操作
+        if clean_button:
+            from src.document_cleaner import DocumentCleaner
+            
+            # 保存原始段落
+            st.session_state.original_paragraphs = paragraphs.copy()
+            
+            # 执行清理
+            cleaner = DocumentCleaner(paragraphs)
+            clean_result = cleaner.clean_all({
+                'remove_empty': clean_empty,
+                'merge_blanks': merge_blanks,
+                'remove_duplicates': remove_duplicates
+            })
+            
+            # 更新段落
+            paragraphs = clean_result['paragraphs']
+            st.session_state.cleaned_paragraphs = paragraphs
+            st.session_state.clean_stats = clean_result['stats']
+            
+            st.success("✅ 清理完成！")
+            st.info(
+                f"📊 清理统计:\n"
+                f"- 删除空段落: {clean_result['stats']['removed_empty']} 个\n"
+                f"- 合并空行: {clean_result['stats']['merged_blanks']} 个\n"
+                f"- 删除重复: {clean_result['stats']['removed_duplicates']} 个\n"
+                f"- 清理前: {clean_result['original_count']} 段 → 清理后: {clean_result['cleaned_count']} 段"
+            )
+            st.rerun()
+        
+        # 如果有清理后的段落，使用清理后的
+        if 'cleaned_paragraphs' in st.session_state:
+            paragraphs = st.session_state.cleaned_paragraphs
+        
+        # 显示恢复按钮
+        if 'cleaned_paragraphs' in st.session_state:
+            if st.button("🔄 恢复原始文档"):
+                paragraphs = st.session_state.original_paragraphs
+                st.session_state.cleaned_paragraphs = paragraphs
+                if 'original_paragraphs' in st.session_state:
+                    del st.session_state.original_paragraphs
+                if 'clean_stats' in st.session_state:
+                    del st.session_state.clean_stats
+                st.rerun()
 
         # 2. 标题识别与手动修正
         detector = TitleDetector(paragraphs)
