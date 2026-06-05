@@ -149,7 +149,7 @@ python verify_deployment.py
    ```
    或使用包含 token 的命令:
    ```bash
-   git push https://pathologysmile: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@github.com/pathologysmile/word-format-tool.git main
+   git push https://<YOUR_TOKEN>@github.com/pathologysmile/word-format-tool.git main
    ```
 
 2. **部署到 Streamlit Cloud**
@@ -169,8 +169,8 @@ python verify_deployment.py
 ## 📝 重要提醒
 
 ### Token 安全
-- Personal Access Token: `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`
-- ⚠️ 请妥善保管,不要公开分享
+- ⚠️ Personal Access Token 已从文档中移除
+- 请妥善保管,不要公开分享
 - 如需撤销,访问: https://github.com/settings/tokens
 
 ### 网络问题
