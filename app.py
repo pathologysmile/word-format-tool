@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 st.title("📝 Word 文档格式自动化工具")
-st.markdown("自动将 Word 文档格式化为标准格式，支持公文、学术、商务等多种模板。")
+st.markdown("自动将 Word 文档格式化为标准格式，支持公文、学术、商务、工作汇报、会议纪要等多种模板。")
 
 # 侧边栏：文件上传与模板选择
 with st.sidebar:
